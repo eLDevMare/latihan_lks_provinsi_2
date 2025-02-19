@@ -228,6 +228,7 @@ class GamesController extends Controller
         
         $hightScore = $user->map(function($item) use($game, $score){
             return [
+                "id" => $item->id,
                 "username" => $item->username,
                 "registeredTimestamp" => $item->created_at,
                 "authoredGames" => $game->map(function($itemm) {

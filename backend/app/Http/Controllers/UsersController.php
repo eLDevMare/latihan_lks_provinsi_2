@@ -10,8 +10,21 @@ use Illuminate\Support\Facades\Hash;
 class UsersController extends Controller
 {
     public function getAllAdmins(){
+        $user = DB::table("administrators")
+        ->select("administrators.username", "administrators.last_login_at", "administrators.created_at", "administrators.updated_at");
+
+        $userGet = $user->get();
+        $userCount = $user->count();
+        
+        return response()->json([
+            "total_element" => $userCount,
+            "content" => $userGet
+        ]);
+    }
+
+    public function getAllUsers(){
         $user = DB::table("users")
-        ->select("users.username", "users.last_login_at", "users.created_at", "users.updated_at");
+        ->select("users.username", "users.last_login_at", "users.created_at", "users.updated_at", "users.id as id");
 
         $userGet = $user->get();
         $userCount = $user->count();
@@ -23,6 +36,7 @@ class UsersController extends Controller
     }
 
     public function updateUser(Request $request ,$id){
+
         $validate = Validator::make($request->all(), [
             "username" => "required|unique:users,username|min:4|max:60",
             "password" => "required|min:5|max:10"

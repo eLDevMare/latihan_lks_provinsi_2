@@ -36,7 +36,8 @@ Route::middleware(["logout"])->group(function(){
 
 Route::middleware(["onlyAdmin"])->group(function(){
     Route::get("/v1/admins", [UsersController::class, "getAllAdmins"]);
-    Route::put("/v1/users/{id}", [UsersController::class, "updateUser"]);
+    Route::get("/v1/users", [UsersController::class, "getAllUsers"]);
+    Route::put("/v1/userss/{id}", [UsersController::class, "updateUser"]);
     Route::delete("/v1/users/{id}", [UsersController::class, "deleteUser"]);
 
 });

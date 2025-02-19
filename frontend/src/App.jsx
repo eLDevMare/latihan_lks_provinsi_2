@@ -11,6 +11,10 @@ import Update from './pages/Update'
 import Detail from './pages/Detail'
 import AddGames from './pages/AddGames'
 import User from './pages/User'
+import Admins from './pages/Admin/Admins'
+import Users from './pages/Admin/Users'
+import AddUser from './pages/Admin/AddUser'
+import UpdateUser from './pages/Admin/UpdateUser'
 
 
 function App() {
@@ -46,6 +50,22 @@ function App() {
     {
       path: "/profile",
       element: <User/>
+    },
+    {
+      path: "/admin",
+      element: <Admins/>
+    },
+    {
+      path: "/user",
+      element: <Users/>
+    },
+    {
+      path: "/adduser",
+      element: <AddUser/>
+    },
+    {
+      path: "/updateuser/:slug",
+      element: <UpdateUser/>
     },
   ])
 

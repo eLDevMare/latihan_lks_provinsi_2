@@ -23,7 +23,6 @@ const Index = () => {
         }
         getMe()
     }, [])
-    
     return (
         <div>
             <Navbar/>

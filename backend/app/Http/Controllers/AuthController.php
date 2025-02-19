@@ -9,6 +9,7 @@ use PHPOpenSource\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Validator;
+use Carbon\Carbon;
 
 class AuthController extends Controller
 {
@@ -44,7 +45,7 @@ class AuthController extends Controller
 
     public function signInUser(Request $request){
         $validate = Validator::make($request->all(), [
-            "username" => "required|min:4|max:60|exists:users,username",
+            "username" => "required|min:4|max:60",
             "password" =>  "required|min:5|max:10"
         ]);
 
@@ -55,9 +56,13 @@ class AuthController extends Controller
                 "message" => "Wrong username or password" 
             ],422);
         }
-        
+
 
         if($token = Auth::guard("user")->attempt($request->only("username", "password"))){
+            User::query()->where("username", $request->username)->update([
+                "last_login_at" => Carbon::now()
+            ]);
+
             return response()->json([
                 "status" => "success user",
                 "token" => $token
@@ -65,6 +70,10 @@ class AuthController extends Controller
         }
 
         if($token = Auth::guard("admin")->attempt($request->only("username", "password"))){
+            Admin::query()->where("username", $request->username)->update([
+                "last_login_at" => Carbon::now()
+            ]);
+
             return response()->json([
                 "status" => "success admin",
                 "token" => $token
@@ -85,8 +94,15 @@ class AuthController extends Controller
     }
 
     public function me(){
-        $user = Auth::guard("user")->user()->username;
-        return response()->json($user);
+        $user = Auth::guard("user")->user();
+        $admin = Auth::guard("admin")->user();
+        if($user){
+            return response()->json($user->username);
+        }
+
+        if($admin){
+            return response()->json($admin->username);
+        }
     }
 
 }

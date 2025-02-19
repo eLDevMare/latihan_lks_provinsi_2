@@ -37,6 +37,13 @@ const Signup = () => {
         try {
             const response = await axios.post("http://localhost:8000/api/v1/auth/signin", data)
             localStorage.setItem("token", response.data.token)
+            if(response.data.status == "success user"){
+                localStorage.setItem("scoiety", "user")
+            }
+
+            if(response.data.status == "success admin"){
+                localStorage.setItem("scoiety", "admin")
+            }
             console.log("success signin")
             console.log(response.data)
             navigate("/index")

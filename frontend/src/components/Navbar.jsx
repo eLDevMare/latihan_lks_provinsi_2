@@ -6,6 +6,7 @@ const Navbar = () => {
     const token = localStorage.getItem("token")
     const navigate = useNavigate()
     const username = localStorage.getItem("username")
+    const society = localStorage.getItem("scoiety")
 
     const handleLogout = async(e) => {
         e.preventDefault()
@@ -16,6 +17,7 @@ const Navbar = () => {
         })
         localStorage.removeItem("token")
         localStorage.removeItem("username")
+        localStorage.removeItem("scoiety")
         navigate("/signup")
         console.log(response.data)
     }
@@ -33,10 +35,20 @@ const Navbar = () => {
       <div class="container">
         <a class="navbar-brand" href="/index">Gaming Portal</a>
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-          
-         <li><a href="/games" class="nav-link px-2 text-white">Discover Games</a></li>
-         <li><a href="/manage" class="nav-link px-2 text-white">Manage Games</a></li>
-         <li><a href="/profile" class="nav-link px-2 text-white">User Profile</a></li>
+            {
+                society == "user" ? (
+                    <>
+                        <li><a href="/games" class="nav-link px-2 text-white">Discover Games</a></li>
+                        <li><a href="/manage" class="nav-link px-2 text-white">Manage Games</a></li>
+                        <li><a href="/profile" class="nav-link px-2 text-white">User Profile</a></li>
+                    </>
+                ) : (
+                    <>
+                        <li><a href="/admin" class="nav-link px-2 text-white">List Admins</a></li>
+                        <li><a href="/user" class="nav-link px-2 text-white">List Users</a></li>
+                    </>
+                )
+            }
          <li class="nav-item">
            <a class="nav-link active bg-dark" href="#">welcome, {username}</a>
          </li> 
