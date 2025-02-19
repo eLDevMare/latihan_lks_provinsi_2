@@ -18,7 +18,7 @@ class GamesController extends Controller
         $page = $request->query("page", 0);
         $size = $request->query("size", 10);
         $sortBy = $request->query("sortby", "title");
-        $sortDir = $request->query("sorddir", "asc");
+        $sortDir = $request->query("sortdir", "asc");
 
         
         $games = DB::table("game_versions")->pluck("game_id")->toArray();
@@ -34,6 +34,7 @@ class GamesController extends Controller
                          "games.updated_at as uploadTimeStamp",
                          "users.username as author")
                 ->whereIn("games.id", $games)
+                ->orderBy($sortBy, $sortDir)
                 ->get();
 
         $group = $game->groupBy("id");
@@ -118,7 +119,7 @@ class GamesController extends Controller
                 "title" => $item->title,
                 "description" => $item->description,
                 "thumbnail" => "/games/" . $item->slug . "/" . $item->version . "/thumbnail.png",
-                "uploadTimeStamp" => $item->created_at,
+                "uploadTimeStamp" => $item->updated_at,
                 "author" => $user,
                 "scoreCount" => $count,
                 "gamePath" => $item->storage_path
@@ -295,6 +296,5 @@ class GamesController extends Controller
         return response()->json([
             "message" => "success"
         ]);
-    
     }
 }

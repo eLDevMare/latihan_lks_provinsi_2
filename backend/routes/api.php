@@ -23,6 +23,7 @@ Route::get("/v1/games/{slug}/scores", [GamesController::class, "scoreGame"]);
 
 
 Route::middleware(["logout"])->group(function(){
+    Route::get("/v1/auth/me", [AuthController::class, "me"]);
     Route::post("/v1/auth/signout", [AuthController::class, "signOutUser"]);
     Route::get("/v1/games", [GamesController::class, "getAllGame"]);
     Route::post("/v1/games", [GamesController::class, "addGame"]);
@@ -30,7 +31,6 @@ Route::middleware(["logout"])->group(function(){
     Route::get("/v1/games/{slug}", [GamesController::class, "gameDetail"]);
     
     Route::delete("/v1/games/{slug}", [GamesController::class, "deleteGame"]);
-    
     Route::post("/v1/games/{slug}/scores", [GamesController::class, "postScore"]);
 });
 

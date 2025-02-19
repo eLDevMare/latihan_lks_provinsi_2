@@ -44,7 +44,7 @@ class AuthController extends Controller
 
     public function signInUser(Request $request){
         $validate = Validator::make($request->all(), [
-            "username" => "required|min:4|max:60",
+            "username" => "required|min:4|max:60|exists:users,username",
             "password" =>  "required|min:5|max:10"
         ]);
 
@@ -82,6 +82,11 @@ class AuthController extends Controller
         return response()->json([
             "status" => "success"
         ]);
+    }
+
+    public function me(){
+        $user = Auth::guard("user")->user()->username;
+        return response()->json($user);
     }
 
 }
