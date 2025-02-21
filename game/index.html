@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            text-align: center;
+        }
+
+        #board {
+            background: url("assets/background.jpg");
+            z-index: 1;
+        }
+
+        .board-out {
+            display: none;
+            flex-direction: row;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .board-out div{
+            background-color: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 1rem 2rem;
+            text-align: left;
+        }
+
+        .board-out div select {
+            width: 15.5rem;
+            height: 2.5rem;
+            padding-left: 1rem;
+            margin-top: -1rem;
+            border-radius: 7px;
+            font-weight: 600;
+        }
+
+        .board-out div div {
+            margin-left: -2.1rem;
+            background-color: transparent;
+            margin-top: 0.5rem;
+        }
+
+        .board-out div div div {
+            background-color: transparent;
+            text-align: left;
+            margin: 1rem;
+            border-bottom: solid 2px white;
+            padding: 0;
+            margin-top: 0.2rem;
+        }
+
+        .board-out div div div h4 {
+            margin: 0.1rem;
+        }
+
+        .board-out div div div p {
+            margin: 0.1rem;
+            margin-bottom: 0.5rem;
+            font-style: italic;
+        }
+
+        .dashboard {
+            display: block;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .dashboard-banner img {
+            height: 10rem;
+        }
+
+        .dashboard-input{
+            margin-top: 1rem;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-input input {
+            width: 22rem;
+            height: 2.5rem;
+            border-radius: 10px;
+            background-color: rgb(224, 223, 223);
+            border: 3px gray solid;
+        }
+
+        .dashboard-input select {
+            width: 22.5rem;
+            height: 3rem;
+            border-radius: 10px;
+            background-color: rgb(224, 223, 223);
+            border: 3px gray solid;
+        }
+
+        .dashboard-gun{
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;   
+        }
+
+        .dashboard-gun div {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .dashboard-gun div img {
+            width: 7rem;
+            height: 5rem;
+        }
+
+        .dashboard-target {
+            display: flex;
+            flex-direction: row;
+            text-align: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-target div {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .dashboard-target div img {
+            width: 6rem;
+            height: auto;
+        }
+
+        .dashboard-button button {
+            border-radius: 10px;
+            padding: 0.5rem 2rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .dashboard-button-1 {
+            background-color: green;
+        }
+
+        .dashboard-button-2{
+            background-color: darkred;
+        }
+
+        .checkbox {
+            margin-top: 0.5rem;
+            height: 1.5rem;
+            background-color: gray;
+        }
+
+        .dashboard-instruction {
+            background-color: rgba(0, 0, 0, 0.9);
+            text-align: left;
+            color: white;
+            margin-left: 4rem;
+            display: none;
+            padding: 1rem 5rem 2rem 2rem;
+            align-items: start;
+            justify-content: start;
+            border-radius: 10px;
+            height: 35rem;
+            width: 30rem;
+        }
+
+        .dashboard-instruction h1 {
+            font-size: 2.5rem;
+        }
+
+        .dashboard-instruction div {
+            font-size: 1.3rem;
+        }
+
+
+        .output {
+            display: none;
+            background-color: gray;
+            position: absolute;
+            top: 50%;
+            left: 42%;
+            transform: translate(-58%, -50%);
+            padding: 1rem;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            z-index: 2;
+            border-radius: 10px;
+        }
+
+        .output-detail {
+            margin-bottom: 0.5rem;
+            display: flex;
+            text-align: justify;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .output-detail input {
+            background-color: gray;
+            border: 2px solid white;
+            border-radius: 5px;
+            color: white;
+            padding: 0.2rem 1rem;
+        }
+
+        .output-button {
+            display: flex;
+            flex-direction: row;
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+            margin-top: 1rem;
+            gap: 0.5rem;
+        }
+        
+        .output-button button {
+            padding: 0.3rem 1.2rem;
+            background-color: blueviolet;
+            color: white;
+            border: 1px solid white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+    </style>
+<body>
+    <div class="dashboard" id="dashboard">
+        <form action="" onsubmit="gameboard.dashboardFunc(); event.preventDefault()">
+            <div class="dashboard-banner">
+                <img src="/assets/shooter.png" alt="">
+            </div>
+            <div class="dashboard-input">
+                <input required type="text" placeholder="Input Username" id="username">
+                <select name="" id="level">
+                    <option value="easy">Easy</option>
+                    <option value="medium">Medium</option>
+                    <option value="hard">Hard</option>
+                </select>
+            </div>
+            <div class="dashboard-gun">
+                <div>
+                    <img src="/assets/gun1.png" alt="">
+                    <input type="radio" name="select-gun" class="checkbox" value="gun1" id="select-gun" checked>
+                </div>
+                <div>
+                    <img src="/assets/gun2.png" alt="">
+                    <input type="radio" name="select-gun" class="checkbox" value="gun2" id="select-gun">
+                </div>
+            </div>
+            <div class="dashboard-target">
+                <div>
+                    <img src="/assets/target1.png" alt="">
+                    <input type="radio" name="select-target" class="checkbox" value="target1" id="select-target" checked>
+                </div>
+                <div>
+                    <img src="/assets/target2.png" alt="">
+                    <input type="radio" name="select-target" class="checkbox" value="target2" id="select-target">
+                </div>
+                <div>
+                    <img src="/assets/target3.png" alt="">
+                    <input type="radio" name="select-target" class="checkbox" value="target3" id="select-target">
+                </div>
+            </div>
+            <div class="dashboard-button">
+                <button class="dashboard-button-1" type="submit">Play Game</button>
+                <button type="button" class="dashboard-button-2" onclick="instruction()">Instruction</button>
+            </div>
+        </form>
+        <div class="dashboard-instruction" id="dashboard-instruction">
+            <h1>How to play game</h1>
+            <div>
+                <p>1.Input Username</p>
+                <p>2.Point the pointer at the target</p>
+                <p>3.Click the shoot</p>
+                <p>4.Get as many points as posible</p>
+                <p>5.Enjoy!</p>
+            </div>
+        </div>
+    </div>
+    <div class="output" id="output">
+        <div class="output-detail">
+            <label for="">Username</label>
+            <input type="text" readonly id="username-output" value="el rakkai">
+        </div>
+        <div class="output-detail">
+            <label for="">Score</label>
+            <input type="text" readonly id="score-output" value="120">
+        </div>
+        <div class="output-button">
+            <button onclick="gameboard.saveFunc()">Save</button>
+            <button onclick="window.location.reload()">Exit</button>
+        </div>
+    </div>
+    <div class="board-out" id="board-out">
+        <canvas id="board"></canvas>
+        <div>
+            <h1 style="font-weight: 800;">LEADERBOARD</h1>
+            <select name="" id="">
+                <option value="score">Sort By Score</option>
+                <option value="name">Sort By Name</option>
+            </select>
+            <div id="sigma-abiz">
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
